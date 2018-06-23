@@ -6,7 +6,7 @@ public class MessageChat {
     private String name;
     private boolean isSelf;
 
-    public MessageChat() {
+    public MessageChat(String message, boolean b) {
 
     }
     public MessageChat(String name ,String text, boolean isSelf) {

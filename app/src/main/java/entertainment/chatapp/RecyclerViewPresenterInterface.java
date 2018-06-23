@@ -10,4 +10,7 @@ public interface RecyclerViewPresenterInterface {
     int getListItemCount();
     RecyclerView.ViewHolder onCreateViewHolderForView(@NonNull ViewGroup parent, int viewType);
     int getItemViewTypeForItem(int position);
+    void sendMessageToServer(String message, boolean isSelf);
+    void onReceivingMessageFromUser(String message, boolean isSelf);
+    void onRunningOnUiThreadShowResponse(String message, boolean isSelf);
 }

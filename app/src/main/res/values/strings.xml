@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ChatApp</string>
     <string name="btn_send">Send </string>
+    <string name="toast_error_message_on_displaying_conversation">Error in displaying conversation</string>
 </resources>

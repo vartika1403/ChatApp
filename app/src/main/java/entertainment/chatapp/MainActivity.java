@@ -6,6 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.FirebaseDatabase;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -25,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements  ChatScreenInterf
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        FirebaseApp.initializeApp(this);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         recyclerViewPresenter = new RecyclerViewPresenter(this, recyclerView);
     }
 
@@ -36,5 +41,16 @@ public class MainActivity extends AppCompatActivity implements  ChatScreenInterf
     @Override
     public void sendMessage(String message) {
         recyclerViewPresenter.sendMessageToAdapter(message, true);
+        recyclerViewPresenter.sendMessageToServer(message, true);
+    }
+
+    @Override
+    public void runOnUiThread(final String message, boolean isSelf) {
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+             recyclerViewPresenter.onRunningOnUiThreadShowResponse(message, false);
+            }
+        });
     }
 }
