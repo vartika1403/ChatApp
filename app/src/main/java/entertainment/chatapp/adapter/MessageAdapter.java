@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import entertainment.chatsocketapp.RecyclerViewPresenter;
-import entertainment.chatsocketapp.ViewHolderViewInterface;
+import entertainment.chatapp.RecyclerViewPresenter;
+import entertainment.chatapp.ViewHolderViewInterface;
 
 public class MessageAdapter extends RecyclerView.Adapter {
     private static final String LOG_TAG = MessageAdapter.class.getSimpleName();

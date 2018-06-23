@@ -9,7 +9,8 @@ public class MessageChat {
     public MessageChat() {
 
     }
-    public MessageChat(String text, boolean isSelf) {
+    public MessageChat(String name ,String text, boolean isSelf) {
+        this.name = name;
         this.text = text;
         this.isSelf = isSelf;
     }

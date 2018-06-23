@@ -46,11 +46,11 @@ public class RecyclerViewPresenter implements RecyclerViewPresenterInterface {
     public void onBindViewHolderAtPosition(ViewHolderViewInterface messageViewHolder, int position) {
         MessageChat messageChat = chatUsersList.get(position);
         if (messageChat.isSelf()) {
-          messageViewHolder.setToUserName(chatUser.getUserName());
-          messageViewHolder.setToMessage(chatUser.getMessage());
+          messageViewHolder.setToUserName(messageChat.getName());
+          messageViewHolder.setToMessage(messageChat.getText());
         } else {
-            messageViewHolder.setFromUserName(chatUser.getUserName());
-            messageViewHolder.setFromMessage(chatUser.getMessage());
+            messageViewHolder.setFromUserName(messageChat.getName());
+            messageViewHolder.setFromMessage(messageChat.getText());
         }
 
     }
