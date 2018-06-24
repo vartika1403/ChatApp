@@ -1,0 +1,79 @@
+{
+  "project_info": {
+    "project_number": "62684805662",
+    "firebase_url": "https://awesome-c77de.firebaseio.com",
+    "project_id": "awesome-c77de",
+    "storage_bucket": "awesome-c77de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62684805662:android:e0e217bf2fbb4c60",
+        "android_client_info": {
+          "package_name": "entertainment.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62684805662-j7prmkaiebovl5a6gjbaiskb9ripi8c7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC51ROLNVMJrZjTAL5y2lD2zcmQ6AZ-H0w"
+        },
+        {
+          "current_key": "AIzaSyBc8BjgPC2EKax48WsK31jhK18xbRcsAts"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62684805662:android:b5e3e0aebb1635ac",
+        "android_client_info": {
+          "package_name": "entertainment.chatpp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62684805662-j7prmkaiebovl5a6gjbaiskb9ripi8c7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC51ROLNVMJrZjTAL5y2lD2zcmQ6AZ-H0w"
+        },
+        {
+          "current_key": "AIzaSyBc8BjgPC2EKax48WsK31jhK18xbRcsAts"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

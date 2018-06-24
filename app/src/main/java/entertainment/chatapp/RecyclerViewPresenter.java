@@ -6,12 +6,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class RecyclerViewPresenter implements RecyclerViewPresenterInterface {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(messageAdapter);
-        String chatId = "Cyber Ty".concat("63906");
+      /*  String chatId = "Cyber Ty".concat("63906");
         String userConversationUri = Conf.firebaseConverstionUri(chatId);
         if (userConversationUri.isEmpty()) {
             Log.i(LOG_TAG, "Empty userConversationUri");
@@ -45,10 +44,11 @@ public class RecyclerViewPresenter implements RecyclerViewPresenterInterface {
         } else {
             Log.i(LOG_TAG, "firebase userConversationUri, " + userConversationUri);
         }
+        FirebaseApp.initializeApp((Context) chatScreenInterface);
         firebaseChatRef = FirebaseDatabase.getInstance().getReferenceFromUrl(userConversationUri);
         if (firebaseChatRef == null) {
             return;
-        }
+        }*/
     }
 
     @Override
@@ -63,10 +63,10 @@ public class RecyclerViewPresenter implements RecyclerViewPresenterInterface {
         MessageChat messageChat = chatUsersList.get(position);
         if (messageChat.isSelf()) {
           messageViewHolder.setToUserName(messageChat.getName());
-          messageViewHolder.setToMessage(messageChat.getText());
+          messageViewHolder.setToMessage(messageChat.getMesage());
         } else {
             messageViewHolder.setFromUserName(messageChat.getName());
-            messageViewHolder.setFromMessage(messageChat.getText());
+            messageViewHolder.setFromMessage(messageChat.getMesage());
         }
     }
 
@@ -111,10 +111,8 @@ public class RecyclerViewPresenter implements RecyclerViewPresenterInterface {
     }
 
     @Override
-    public void onRunningOnUiThreadShowResponse(String message, boolean isSelf) {
+    public void onRunningOnUiThreadShowResponse(String message, boolean isSelf, DatabaseReference firebaseChatRef) {
         firebaseConnection.sendReceiverMessageToServer(message, false,
                 firebaseChatRef, chatUsersList, messageAdapter);
     }
-
-
 }

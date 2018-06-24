@@ -1,5 +1,7 @@
 package entertainment.chatapp;
 
+import android.util.Log;
+
 import com.google.firebase.database.DatabaseReference;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +17,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class FirebaseConnection {
+    private static final String LOG_TAG = FirebaseConnection.class.getSimpleName();
     private RecyclerViewPresenter recyclerViewPresenter;
 
     public FirebaseConnection(RecyclerViewPresenter recyclerViewPresenter) {
@@ -61,12 +64,11 @@ public class FirebaseConnection {
             JSONObject jsonObj = new JSONObject(message);
             JSONObject object = jsonObj.getJSONObject("message");
             String receivedMessage = object.getString("message");
+            Log.i(LOG_TAG, "receiver message, " + receivedMessage);
             MessageChat messageChat = new MessageChat(receivedMessage, false);
             chatUsersList.add(messageChat);
             messageAdapter.notifyDataSetChanged();
-
             firebaseChatRef.push().setValue(messageChat);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

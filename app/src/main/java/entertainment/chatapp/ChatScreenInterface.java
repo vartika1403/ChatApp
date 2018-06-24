@@ -1,6 +1,6 @@
 package entertainment.chatapp;
 
 public interface ChatScreenInterface {
-    public void sendMessage(String message);
-    public void runOnUiThread(String message, boolean isSelf);
+    void sendMessage(String message);
+    void runOnUiThread(String message, boolean isSelf);
 }

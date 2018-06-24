@@ -2,16 +2,17 @@ package entertainment.chatapp.model;
 
 public class MessageChat {
     private String id;
-    private String text;
+    private String mesage;
     private String name;
     private boolean isSelf;
 
     public MessageChat(String message, boolean b) {
+        this.mesage = message;
 
     }
     public MessageChat(String name ,String text, boolean isSelf) {
         this.name = name;
-        this.text = text;
+        this.mesage = text;
         this.isSelf = isSelf;
     }
 
@@ -23,8 +24,12 @@ public class MessageChat {
         this.id = id;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public String getMesage() {
+        return mesage;
+    }
+
+    public void setMesage(String mesage) {
+        this.mesage = mesage;
     }
 
     public String getName() {
@@ -33,10 +38,6 @@ public class MessageChat {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getText() {
-        return text;
     }
     public boolean isSelf() {
         return isSelf;
