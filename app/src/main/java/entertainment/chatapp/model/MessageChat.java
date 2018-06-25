@@ -6,13 +6,12 @@ public class MessageChat {
     private String name;
     private boolean isSelf;
 
-    public MessageChat(String message, boolean b) {
-        this.mesage = message;
+    public MessageChat() {
 
     }
-    public MessageChat(String name ,String text, boolean isSelf) {
-        this.name = name;
-        this.mesage = text;
+
+    public MessageChat(String message, boolean isSelf) {
+        this.mesage = message;
         this.isSelf = isSelf;
     }
 
@@ -39,7 +38,7 @@ public class MessageChat {
     public void setName(String name) {
         this.name = name;
     }
-    public boolean isSelf() {
+    public boolean getIsSelf() {
         return isSelf;
     }
 

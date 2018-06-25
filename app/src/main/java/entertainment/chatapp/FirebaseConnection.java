@@ -1,8 +1,15 @@
 package entertainment.chatapp;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -24,7 +31,10 @@ public class FirebaseConnection {
         this.recyclerViewPresenter = recyclerViewPresenter;
     }
 
-    public void sendMessageToServer(String message, boolean isSelf) {
+    public void sendMessageToServer(DatabaseReference firebaseChatRef,
+                                    String message, boolean isSelf) {
+        MessageChat messageChat = new MessageChat(message, true);
+        firebaseChatRef.push().setValue(messageChat);
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("https")
                 .host("www.personalityforge.com")
@@ -49,11 +59,8 @@ public class FirebaseConnection {
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
-
                 final String myResponse = response.body().string();
-
-               recyclerViewPresenter.onReceivingMessageFromUser(myResponse, false);
-
+                recyclerViewPresenter.onReceivingMessageFromUser(myResponse, false);
             }
         });
     }
@@ -72,6 +79,37 @@ public class FirebaseConnection {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void displayOldMessageOnUi(final DatabaseReference databaseReference) {
+        if (databaseReference == null) {
+            return;
+        }
+
+        if(Conf.isShown) {
+            return;
+        }
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot itemDataSnapshot : dataSnapshot.getChildren()) {
+                    Log.i(LOG_TAG, "itemDataSnapShot, " + itemDataSnapshot);
+                    MessageChat messageChat = itemDataSnapshot.getValue(MessageChat.class);
+                //    messageChat.setMesage(itemDataSnapshot.);
+                    if (messageChat == null) {
+                        return;
+                    }
+                    Log.i(LOG_TAG, "message chat is self, " + messageChat.getIsSelf());
+                    recyclerViewPresenter.sendMessageToAdapter(messageChat.getMesage(), messageChat.getIsSelf());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
 

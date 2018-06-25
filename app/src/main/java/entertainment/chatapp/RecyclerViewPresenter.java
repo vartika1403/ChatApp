@@ -6,10 +6,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.google.firebase.database.DatabaseReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,24 +36,11 @@ public class RecyclerViewPresenter implements RecyclerViewPresenterInterface {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(messageAdapter);
-      /*  String chatId = "Cyber Ty".concat("63906");
-        String userConversationUri = Conf.firebaseConverstionUri(chatId);
-        if (userConversationUri.isEmpty()) {
-            Log.i(LOG_TAG, "Empty userConversationUri");
-            return;
-        } else {
-            Log.i(LOG_TAG, "firebase userConversationUri, " + userConversationUri);
-        }
-        FirebaseApp.initializeApp((Context) chatScreenInterface);
-        firebaseChatRef = FirebaseDatabase.getInstance().getReferenceFromUrl(userConversationUri);
-        if (firebaseChatRef == null) {
-            return;
-        }*/
     }
 
     @Override
     public void sendMessageToAdapter(String message, boolean isSelf) {
-     MessageChat chatUser = new MessageChat("me", message, true);
+     MessageChat chatUser = new MessageChat(message, isSelf);
      chatUsersList.add(chatUser);
      messageAdapter.notifyDataSetChanged();
     }
@@ -61,11 +48,9 @@ public class RecyclerViewPresenter implements RecyclerViewPresenterInterface {
     @Override
     public void onBindViewHolderAtPosition(ViewHolderViewInterface messageViewHolder, int position) {
         MessageChat messageChat = chatUsersList.get(position);
-        if (messageChat.isSelf()) {
-          messageViewHolder.setToUserName(messageChat.getName());
+        if (messageChat.getIsSelf()) {
           messageViewHolder.setToMessage(messageChat.getMesage());
         } else {
-            messageViewHolder.setFromUserName(messageChat.getName());
             messageViewHolder.setFromMessage(messageChat.getMesage());
         }
     }
@@ -93,7 +78,7 @@ public class RecyclerViewPresenter implements RecyclerViewPresenterInterface {
 
     @Override
     public int getItemViewTypeForItem(int position) {
-       if (chatUsersList.get(position).isSelf()) {
+       if (chatUsersList.get(position).getIsSelf()) {
            return 1;
        } else {
            return 0;
@@ -101,18 +86,25 @@ public class RecyclerViewPresenter implements RecyclerViewPresenterInterface {
     }
 
     @Override
-    public void sendMessageToServer(String message, boolean isSelf) {
-        firebaseConnection.sendMessageToServer(message, true);
+    public void sendMessageToServer(String message, boolean isSelf,
+                                    DatabaseReference firebaseChatRef) {
+        firebaseConnection.sendMessageToServer(firebaseChatRef, message, isSelf);
     }
 
     @Override
     public void onReceivingMessageFromUser(final String message, boolean isSelf) {
-        chatScreenInterface.runOnUiThread(message, false);
+        chatScreenInterface.runOnUiThread(message, isSelf);
     }
 
     @Override
-    public void onRunningOnUiThreadShowResponse(String message, boolean isSelf, DatabaseReference firebaseChatRef) {
-        firebaseConnection.sendReceiverMessageToServer(message, false,
+    public void onRunningOnUiThreadShowResponse(String message, boolean isSelf,
+                                                DatabaseReference firebaseChatRef) {
+        firebaseConnection.sendReceiverMessageToServer(message, isSelf,
                 firebaseChatRef, chatUsersList, messageAdapter);
+    }
+
+    @Override
+    public void displayOldMessages(DatabaseReference firebaseChatRef) {
+       firebaseConnection.displayOldMessageOnUi(firebaseChatRef);
     }
 }

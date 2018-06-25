@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements  ChatScreenInterf
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private RecyclerViewPresenter recyclerViewPresenter;
     private DatabaseReference firebaseChatRef;
+    private FirebaseDatabase database;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.input_message_edit_text)
@@ -29,7 +30,13 @@ public class MainActivity extends AppCompatActivity implements  ChatScreenInterf
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         FirebaseApp.initializeApp(this);
+        if (database == null) {
+            database = FirebaseDatabase.getInstance();
+            database.setPersistenceEnabled(true);
+            // ...
+        }
         String chatId = "Cyber Ty".concat("63906");
         String userConversationUri = Conf.firebaseConverstionUri(chatId);
         if (userConversationUri.isEmpty()) {
@@ -39,11 +46,13 @@ public class MainActivity extends AppCompatActivity implements  ChatScreenInterf
             Log.i(LOG_TAG, "firebase userConversationUri, " + userConversationUri);
         }
         firebaseChatRef = FirebaseDatabase.getInstance().getReferenceFromUrl(userConversationUri);
-        if (firebaseChatRef == null) {
-            return;
-        }
-//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
         recyclerViewPresenter = new RecyclerViewPresenter(this, recyclerView);
+      /*  if (!Conf.isShown) {
+            Log.i(LOG_TAG, "isStarted, " + Conf.isShown);
+            recyclerViewPresenter.displayOldMessages(firebaseChatRef);
+            Conf.isShown = true;
+        }*/
     }
 
     @OnClick(R.id.send_button)
@@ -54,15 +63,15 @@ public class MainActivity extends AppCompatActivity implements  ChatScreenInterf
     @Override
     public void sendMessage(String message) {
         recyclerViewPresenter.sendMessageToAdapter(message, true);
-        recyclerViewPresenter.sendMessageToServer(message, true);
+        recyclerViewPresenter.sendMessageToServer(message, true, firebaseChatRef);
     }
 
     @Override
-    public void runOnUiThread(final String message, boolean isSelf) {
+    public void runOnUiThread(final String message, final boolean isSelf) {
         MainActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-             recyclerViewPresenter.onRunningOnUiThreadShowResponse(message, false , firebaseChatRef);
+             recyclerViewPresenter.onRunningOnUiThreadShowResponse(message, isSelf , firebaseChatRef);
             }
         });
     }

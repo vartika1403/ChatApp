@@ -3,7 +3,6 @@ package entertainment.chatapp.adapter;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
-
 import entertainment.chatapp.RecyclerViewPresenter;
 import entertainment.chatapp.ViewHolderViewInterface;
 
@@ -35,5 +34,4 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
        return recyclerViewPresenter.getItemViewTypeForItem(position);
     }
-
 }
